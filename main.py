@@ -211,7 +211,7 @@ def beggining_text():
 def game_loop():
     menu()
     choice = player_input()
-    print(f"{choice}")
+    handle_choice(choice)
 
 def menu():
     print("------------------------------------------")
