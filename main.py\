@@ -196,6 +196,7 @@ def handle_travel():
     food_remaining -= 30
     month, day = days_in_months(month, day)
     days_per_month = max_days_per_month(month)
+    print(f"{days_per_month}")
     game_loop()
 
 def handle_hunt():
