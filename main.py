@@ -100,9 +100,21 @@ def miles_remaining():
 #output: the number of days in a month. If the input is not in 
 #the required range returns 0
 
-def days_in_months(m):
-	#Enter code here
-	pass 
+def days_in_months(m,d):
+    if m in MONTHS_WITH_31_DAYS and d > 31:
+        m += 1 	
+        d = 1
+    elif m in MONTHS_WITH_30_DAYS and d > 30:
+        m += 1
+        d = 1
+    elif m in MONTHS_WITH_28_DAYS and d > 28:
+        m += 1
+        d = 1
+
+    if m > 12:
+        m = 1
+    return m,d
+
 
 #Calculates when a sickness occurs on the current day based
 # on how many days remain in the month and how many sick days have
@@ -165,10 +177,12 @@ def handle_choice(choice):
 def handle_travel():
     global miles_traveled
     global day
+    global month
     global food_remaining
     miles_traveled += 30
     day += 1
     food_remaining -= 30
+    month, day = days_in_months(month, day)
     game_loop()
 
 def handle_hunt():
