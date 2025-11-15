@@ -42,6 +42,7 @@ food_remaining = 500
 health_level = 5
 month = 3
 day = 1
+year = 1848
 sickness_suffered_this_month = 0
 player_name = None
 
@@ -196,6 +197,7 @@ def init_game():
     health_level = 5
     month = 3        # March
     day = 1          # 1st day of the month
+    year = 1848
     sickness_suffered_this_month = 0
     player_name = None
 
@@ -206,7 +208,16 @@ def beggining_text():
     player_name = input("What is your name player? ")
     	
 def game_loop():
-    pass
+    menu()
+
+def menu():
+    print("------------------------------------------")
+    print(f"Date: {month} {day}, {year}")
+    print("Weather: hot")
+    print("Health: fair")
+    print(f"Food: {food_remaining}")
+    print(f"Miles traveled {miles_traveled}")
+    print("------------------------------------------")
 
 def main():
     init_game()
