@@ -83,9 +83,8 @@ NAME_OF_MONTH = [
 
 #-----------------------FUNCTIONS-------------------------
 
-def date_as_string():
-    month_name = NAME_OF_MONTH[month]
-    return month_name
+def date_as_string(m):
+    return NAME_OF_MONTH[m]
 	
 
 def date_report():
@@ -191,6 +190,7 @@ def loss_report():
 def init_game():
     global miles_traveled, food_remaining, health_level
     global month, day, sickness_suffered_this_month, player_name
+    global year
 
     # Reset modeled variables
     miles_traveled = 0
@@ -210,15 +210,25 @@ def beggining_text():
     	
 def game_loop():
     menu()
+    choice = player_input()
+    print(f"{choice}")
 
 def menu():
     print("------------------------------------------")
-    print(f"Date: {date_as_string()} {day}, {year}")
+    print(f"Date: {date_as_string(month)} {day}, {year}")
     print("Weather: hot")
     print("Health: fair")
     print(f"Food: {food_remaining}")
     print(f"Miles traveled {miles_traveled}")
-    print("------------------------------------------")
+    print("------------------------------------------")    
+
+def player_input():
+    print(f"What would you like to do {player_name}....")
+    print("1. Travel")   
+    print("2. Rest")
+    print("3. Hunt")
+    choice = input("Choose your option: ")   
+    return int(choice) 
 
 def main():
     init_game()
