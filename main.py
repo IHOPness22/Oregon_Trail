@@ -163,8 +163,13 @@ def handle_choice(choice):
         handle_choice(new_choice)
 
 def handle_travel():
-	#Enter your code here
-	pass
+    global miles_traveled
+    global day
+    global food_remaining
+    miles_traveled += 30
+    day += 1
+    food_remaining -= 30
+    game_loop()
 
 def handle_hunt():
 	#Enter your code here
