@@ -84,12 +84,15 @@ NAME_OF_MONTH = [
 
 def date_as_string(m,d):
 	#Enter code here
+	pass
 
 def date_report():
 	#Enter code here 
+	pass
 
 def miles_remaining():
 	#Enter code here
+	pass
 
 #Return the number of days in a month (28, 30 or 31).
 #input: an integer from 1-12. 1=January, 2=february, etc
@@ -97,7 +100,8 @@ def miles_remaining():
 #the required range returns 0
 
 def days_in_months(m):
-	#Enter code here 
+	#Enter code here
+	pass 
 
 #Calculates when a sickness occurs on the current day based
 # on how many days remain in the month and how many sick days have
@@ -110,26 +114,30 @@ def days_in_months(m):
 
 def random_sickness_occurs():
 	#Enter your code here
+	pass
 
 def handle_sickness():
 	#Enter your code here
+	pass
 
 def consume_food():
 	#Enter your code here 
+	pass
 
 #Repairs problematic value in the global (month, day)
-model where the day is 
+#model where the day is 
 #larger than the number of the month, If this happens
-advance to the next
+#advance to the next
 #month and knocks down the day back to 1
 #Returns true if the global month/day were altered, else false.
 
 def maybe_rollover_month():
 	#enter your code here 
+	pass
 
 #Causes certain days to elapse. The days pass one at a time, and each
 #day brings a random chance of sickness. The sickness rules are quirky:
-player
+#player
 #is guarenteed to fall ill a certain number of times a month, so illness
 #needs to keep track of month changes 
 #
@@ -137,39 +145,75 @@ player
 
 def advance_game_clock(num_days):
 	#Enter your code here
+	pass
 
 
 #--------------------------Handlers-------------------------
 def handle_travel():
 	#Enter your code here
+	pass
 
 def handle_hunt():
 	#Enter your code here
+	pass
 
 def handle_status():
 	#Enter your code here
+	pass
 
 def handle_help():
 	#Enter your code here
+	pass
 
 def handle_quit():
 	global playing 
 	playing = False
 
 def handle_invalid_input(response):
-	print("'{0}' is not a valid command. Try again." format
-	(response))
+	pass
 
 def game_is_over():
 	#Enter your code here 
+	pass
 
 def player_wins():
 	#Enter your code here 
+	pass
 
 def loss_report():
 	#Enter your code here
+	pass
 
 
 #-------------------Game loops----------------
+def init_game():
+    global miles_traveled, food_remaining, health_level
+    global month, day, sickness_suffered_this_month, player_name
+
+    # Reset modeled variables
+    miles_traveled = 0
+    food_remaining = 500
+    health_level = 5
+    month = 3        # March
+    day = 1          # 1st day of the month
+    sickness_suffered_this_month = 0
+    player_name = None
+
 def beggining_text():
-	print(welcome_text)
+    print(welcome_text + help_text + good_luck_text)
+    input("Press Enter to continue")
+    global player_name
+    player_name = input("What is your name player? ")
+    	
+def game_loop():
+    pass
+
+def main():
+    init_game()
+    beggining_text()
+    game_loop()
+
+
+
+if __name__ == "__main__":
+    main()
