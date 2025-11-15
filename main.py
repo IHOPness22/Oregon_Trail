@@ -150,6 +150,17 @@ def advance_game_clock(num_days):
 
 
 #--------------------------Handlers-------------------------
+def handle_choice(choice):
+    if choice == 1:
+        handle_travel()
+    elif choice == 2:
+        handle_rest()
+    elif choice == 3:
+        handle_hunt()
+    else:
+        print("invalid input, try again")
+        player_input()
+
 def handle_travel():
 	#Enter your code here
 	pass
