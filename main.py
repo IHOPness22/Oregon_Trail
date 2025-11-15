@@ -83,9 +83,10 @@ NAME_OF_MONTH = [
 
 #-----------------------FUNCTIONS-------------------------
 
-def date_as_string(m,d):
-	#Enter code here
-	pass
+def date_as_string():
+    month_name = NAME_OF_MONTH[month]
+    return month_name
+	
 
 def date_report():
 	#Enter code here 
@@ -212,7 +213,7 @@ def game_loop():
 
 def menu():
     print("------------------------------------------")
-    print(f"Date: {month} {day}, {year}")
+    print(f"Date: {date_as_string()} {day}, {year}")
     print("Weather: hot")
     print("Health: fair")
     print(f"Food: {food_remaining}")
