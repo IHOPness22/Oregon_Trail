@@ -103,13 +103,13 @@ def miles_remaining():
 def days_in_months(m,d):
     if m in MONTHS_WITH_31_DAYS and d > 31:
         m += 1 	
-        d = 1
+        d = d - 31
     elif m in MONTHS_WITH_30_DAYS and d > 30:
         m += 1
-        d = 1
+        d = d - 30
     elif m in MONTHS_WITH_28_DAYS and d > 28:
         m += 1
-        d = 1
+        d = d - 28
 
     if m > 12:
         m = 1
@@ -186,8 +186,19 @@ def handle_travel():
     game_loop()
 
 def handle_hunt():
-	#Enter your code here
-	pass
+    global month
+    global food_remaining
+    global day
+    input("Ready to hunt... press your luck")
+    food_gained = random.randint(30, 100)
+    days_lost = random.randint(2, 5)
+    day += days_lost
+    month, day = days_in_months(month, day)
+    food_remaining += food_gained
+    print(f"You gained {food_gained} food")
+    input(f"But you lost..... {days_lost} days")
+    game_loop()
+
 
 def handle_status():
 	#Enter your code here
