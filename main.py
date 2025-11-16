@@ -57,6 +57,7 @@ MIN_DAYS_PER_REST = 2
 MAX_DAYS_PER_REST = 5
 HEALTH_CHANGE_PER_REST = 1
 MAX_HEALTH = 5
+SICK_CHANCE = 0.03
 
 FOOD_PER_HUNT = 100 
 MIN_DAYS_PER_HUNT = 2
@@ -67,6 +68,7 @@ MILES_BETWEEN_NYC_AND_OREGON = 2000
 MONTHS_WITH_31_DAYS = [1, 3, 5, 7, 8, 10, 12]
 MONTHS_WITH_30_DAYS = [4, 6, 9, 11]
 MONTHS_WITH_28_DAYS = [2]
+SICKNESS = ["Cholera", "Dysentery", "Measles", "Typhoid", "Fever"]
 
 NAME_OF_MONTH = [
 	'fake', 'January', 'February', 'March', 'April', 'May',
@@ -135,13 +137,19 @@ def max_days_per_month(m):
 # and incidentally every day of the month 
 
 def random_sickness_occurs():
-	#Enter your code here
-	pass
+    global SICK_CHANCE
+    global health_status
+
+    if health_status == "Healthy":
+        if random.random() <= SICK_CHANCE:
+            health_status = random.choice(SICKNESS)
+            print(f"You have {health_status}")
+            return health_status
+
 
 def handle_sickness():
-    global month 
-    #days_list = list(range(1,
     pass
+
 
 def consume_food():
     pass	
@@ -196,6 +204,7 @@ def handle_travel():
     food_remaining -= 30
     month, day = days_in_months(month, day)
     days_per_month = max_days_per_month(month)
+    new_status = random_sickness_occurs()
     game_loop()
 
 def handle_hunt():
@@ -203,10 +212,12 @@ def handle_hunt():
     global food_remaining
     global day
     global days_per_month
+    global health_status
     input("Ready to hunt... press your luck")
     food_gained = random.randint(30, 100)
     days_lost = random.randint(2, 5)
     day += days_lost
+    new_status = random_sickness_occurs()
     month, day = days_in_months(month, day)
     days_per_month = max_days_per_month(month)
     food_remaining += food_gained
@@ -246,8 +257,8 @@ def loss_report():
 #-------------------Game loops----------------
 def init_game():
     global miles_traveled, food_remaining, health_level
-    global month, day, sickness_suffered_this_month, player_name
-    global year, days_per_month
+    global month, day, player_name
+    global year, days_per_month, health_status
 
     # Reset modeled variables
     miles_traveled = 0
@@ -257,8 +268,8 @@ def init_game():
     day = 1          # 1st day of the month
     year = 1848
     days_per_month = 0
-    sickness_suffered_this_month = 0
     player_name = None
+    health_status = "Healthy"
 
 def beggining_text():
     print(welcome_text + help_text + good_luck_text)
