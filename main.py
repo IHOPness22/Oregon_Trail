@@ -70,6 +70,14 @@ MONTHS_WITH_30_DAYS = [4, 6, 9, 11]
 MONTHS_WITH_28_DAYS = [2]
 SICKNESS = ["Cholera", "Dysentery", "Measles", "Typhoid", "Fever"]
 
+DISEASE_BEHAVIOR = {
+    "Cholera": cholera_effect,
+    "Dysentery": dysentery_effect,
+    "Measles": measles_effect,
+    "Typhoid": typhoid_effect,
+    "Fever": fever_effect
+}
+
 NAME_OF_MONTH = [
 	'fake', 'January', 'February', 'March', 'April', 'May',
 	'June', 'July', 'August', 'September', 'October',
@@ -149,6 +157,11 @@ def random_sickness_occurs():
 
 def handle_sickness():
     pass
+
+#----------------------------DISEASE FUNCTIONS--------------------
+def cholera_effect():
+    pass
+
 
 
 def consume_food():
