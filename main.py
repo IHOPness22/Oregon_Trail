@@ -68,15 +68,7 @@ MILES_BETWEEN_NYC_AND_OREGON = 2000
 MONTHS_WITH_31_DAYS = [1, 3, 5, 7, 8, 10, 12]
 MONTHS_WITH_30_DAYS = [4, 6, 9, 11]
 MONTHS_WITH_28_DAYS = [2]
-SICKNESS = ["Cholera", "Dysentery", "Measles", "Typhoid", "Fever"]
-
-DISEASE_BEHAVIOR = {
-    "Cholera": cholera_effect,
-    "Dysentery": dysentery_effect,
-    "Measles": measles_effect,
-    "Typhoid": typhoid_effect,
-    "Fever": fever_effect
-}
+SICKNESS = ["Cholera", "Dysentery", "Measles", "Typhoid", "Fever"]}
 
 NAME_OF_MONTH = [
 	'fake', 'January', 'February', 'March', 'April', 'May',
@@ -156,13 +148,37 @@ def random_sickness_occurs():
 
 
 def handle_sickness():
-    pass
+    if health_status != "Healthy":
+        DISEASE_BEHAVIOR[health_status]()
 
 #----------------------------DISEASE FUNCTIONS--------------------
 def cholera_effect():
+    global food_remaining    
+    food_remaining -= 15
+    print("You got cholera, more food!!")
+
+def dysentery_effect():
+    pass
+
+def measles_effect():
+    pass
+
+def typhoid_effect():
+    pass
+ 
+def fever_effect():
     pass
 
 
+#Dictionary is below functions so that the fuctions are initialized
+#-------------------------DISEASE DICTIONARY------------------------
+DISEASE_BEHAVIOR = { 
+    "Cholera": cholera_effect,
+    "Dysentery": dysentery_effect,
+    "Measles": measles_effect,
+    "Typhoid": typhoid_effect,
+    "Fever": fever_effect
+} 
 
 def consume_food():
     pass	
@@ -218,6 +234,7 @@ def handle_travel():
     month, day = days_in_months(month, day)
     days_per_month = max_days_per_month(month)
     new_status = random_sickness_occurs()
+    handle_sickness()
     game_loop()
 
 def handle_hunt():
@@ -240,7 +257,6 @@ def handle_hunt():
 
 
 def handle_status():
-	#Enter your code here
 	pass
 
 def handle_help():
