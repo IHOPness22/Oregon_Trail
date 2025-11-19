@@ -43,8 +43,9 @@ health_level = 5
 month = 3
 day = 1
 year = 1848
-sickness_suffered_this_month = 0
+sick_counter = 1
 player_name = None
+health_bar = 100
 
 #Constants -- input which don't change
 
@@ -58,6 +59,7 @@ MAX_DAYS_PER_REST = 5
 HEALTH_CHANGE_PER_REST = 1
 MAX_HEALTH = 5
 SICK_CHANCE = 0.03
+RECOVERY_CHANCE = 0.06
 
 FOOD_PER_HUNT = 100 
 MIN_DAYS_PER_HUNT = 2
@@ -68,7 +70,9 @@ MILES_BETWEEN_NYC_AND_OREGON = 2000
 MONTHS_WITH_31_DAYS = [1, 3, 5, 7, 8, 10, 12]
 MONTHS_WITH_30_DAYS = [4, 6, 9, 11]
 MONTHS_WITH_28_DAYS = [2]
-SICKNESS = ["Cholera", "Dysentery", "Measles", "Typhoid", "Fever"]}
+#SICKNESS = ["Cholera", "Dysentery", "Measles", "Typhoid", "Fever"]
+
+SICKNESS = ["Cholera"]
 
 NAME_OF_MONTH = [
 	'fake', 'January', 'February', 'March', 'April', 'May',
@@ -148,14 +152,22 @@ def random_sickness_occurs():
 
 
 def handle_sickness():
+    global sick_counter
+    global health_status
     if health_status != "Healthy":
         DISEASE_BEHAVIOR[health_status]()
+        if random.random() <= RECOVERY_CHANCE * sick_counter:
+            print(f"You recovered from {health_status}")
+            sick_counter = 1
+            health_status = "Healthy"
+            return health_status
+        else:
+            sick_counter += 1
 
 #----------------------------DISEASE FUNCTIONS--------------------
 def cholera_effect():
-    global food_remaining    
-    food_remaining -= 15
-    print("You got cholera, more food!!")
+    global health_bar 
+    health_bar -= random.randint(5,15)
 
 def dysentery_effect():
     pass
@@ -233,9 +245,8 @@ def handle_travel():
     food_remaining -= 30
     month, day = days_in_months(month, day)
     days_per_month = max_days_per_month(month)
-    new_status = random_sickness_occurs()
+    random_sickness_occurs()
     handle_sickness()
-    game_loop()
 
 def handle_hunt():
     global month
@@ -253,7 +264,6 @@ def handle_hunt():
     food_remaining += food_gained
     print(f"You gained {food_gained} food")
     input(f"But you lost..... {days_lost} days")
-    game_loop()
 
 
 def handle_status():
@@ -287,7 +297,8 @@ def loss_report():
 def init_game():
     global miles_traveled, food_remaining, health_level
     global month, day, player_name
-    global year, days_per_month, health_status
+    global year, days_per_month, health_status, health_bar
+    global sick_counter
 
     # Reset modeled variables
     miles_traveled = 0
@@ -299,6 +310,8 @@ def init_game():
     days_per_month = 0
     player_name = None
     health_status = "Healthy"
+    health_bar = 100
+    sick_counter = 1
 
 def beggining_text():
     print(welcome_text + help_text + good_luck_text)
@@ -307,9 +320,10 @@ def beggining_text():
     player_name = input("What is your name player? ")
     	
 def game_loop():
-    menu()
-    choice = player_input()
-    handle_choice(choice)
+    while True:
+        menu()
+        choice = player_input()
+        handle_choice(choice)
 
 def menu():
     print("------------------------------------------")
@@ -319,6 +333,7 @@ def menu():
     print(f"Food: {food_remaining}")
     print(f"Miles traveled {miles_traveled}")
     print("------------------------------------------")    
+    print(f"HP:{health_bar}")
 
 def player_input():
     print(f"What would you like to do {player_name}....")
