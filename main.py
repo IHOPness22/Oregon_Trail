@@ -1,3 +1,4 @@
+import sys
 import random
 
 welcome_text = """ 
@@ -280,7 +281,6 @@ def handle_invalid_input(response):
 	pass
 
 def game_is_over():
-	#Enter your code here 
 	pass
 
 def player_wins():
@@ -288,8 +288,11 @@ def player_wins():
 	pass
 
 def loss_report():
-	#Enter your code here
-	pass
+    global health_bar
+    if health_bar <= 0: 
+        health_bar = 0 
+        print("You died, Try again")
+        sys.exit(0)
 
 
 #-------------------Game loops----------------
