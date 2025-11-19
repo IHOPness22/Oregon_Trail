@@ -70,9 +70,7 @@ MILES_BETWEEN_NYC_AND_OREGON = 2000
 MONTHS_WITH_31_DAYS = [1, 3, 5, 7, 8, 10, 12]
 MONTHS_WITH_30_DAYS = [4, 6, 9, 11]
 MONTHS_WITH_28_DAYS = [2]
-#SICKNESS = ["Cholera", "Dysentery", "Measles", "Typhoid", "Fever"]
-
-SICKNESS = ["Cholera"]
+SICKNESS = ["Cholera", "Dysentery", "Measles", "Typhoid", "Fever"]
 
 NAME_OF_MONTH = [
 	'fake', 'January', 'February', 'March', 'April', 'May',
@@ -100,6 +98,14 @@ def date_report():
 def miles_remaining():
 	#Enter code here
 	pass
+
+def starve_effect():
+    global food_remaining
+    global health_bar
+    if food_remaining <= 0:
+        food_remaining = 0
+        health_bar -= random.randint(1,10)     
+        print("Your starving, you need more food")
 
 #Return the number of days in a month (28, 30 or 31).
 #input: an integer from 1-12. 1=January, 2=february, etc
@@ -160,16 +166,20 @@ def cholera_effect():
     health_bar -= random.randint(5,15)
 
 def dysentery_effect():
-    pass
+    global health_bar
+    health_bar -= random.randint(5,20)
 
 def measles_effect():
-    pass
+    global health_bar
+    health_bar -= random.randint(5,15)
 
 def typhoid_effect():
-    pass
+    global health_bar
+    health_bar -= random.randint(5,15)
  
 def fever_effect():
-    pass
+    global health_bar 
+    health_bar -= random.randit(1,10)
 
 
 #Dictionary is below functions so that the fuctions are initialized
@@ -225,6 +235,7 @@ def handle_travel():
     days_per_month = max_days_per_month(month)
     random_sickness_occurs()
     handle_sickness()
+    starve_effect()
 
 def handle_hunt():
     global month
