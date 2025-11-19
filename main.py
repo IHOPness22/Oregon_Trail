@@ -66,7 +66,7 @@ FOOD_PER_HUNT = 100
 MIN_DAYS_PER_HUNT = 2
 MAX_DAYS_PER_HUNT = 5
 
-FOOD_EATEN_PER_DAY = 5
+FOOD_EATEN_PER_DAY = 30
 MILES_BETWEEN_NYC_AND_OREGON = 2000
 MONTHS_WITH_31_DAYS = [1, 3, 5, 7, 8, 10, 12]
 MONTHS_WITH_30_DAYS = [4, 6, 9, 11]
@@ -90,15 +90,10 @@ NAME_OF_MONTH = [
 
 def date_as_string(m):
     return NAME_OF_MONTH[m]
-	
-
-def date_report():
-	#Enter code here 
-	pass
 
 def miles_remaining():
-	#Enter code here
-	pass
+    miles_remained = MILES_BETWEEN_NYC_AND_OREGON - miles_traveled
+    return miles_remained
 
 def starve_effect():
     global food_remaining
@@ -250,7 +245,7 @@ def handle_travel():
     global food_remaining
     miles_traveled += random.randint(MIN_MILES_PER_TRAVEL, MAX_MILES_PER_TRAVEL)
     day += 1
-    food_remaining -= 30
+    food_remaining -= FOOD_EATEN_PER_DAY
     month, day = days_in_months(month, day)
     days_per_month = max_days_per_month(month)
     random_sickness_occurs()
@@ -291,8 +286,7 @@ def handle_status():
 	pass
 
 def handle_help():
-	#Enter your code here
-	pass
+	print(help_text)
 
 def handle_quit():
 	global playing 
@@ -353,7 +347,6 @@ def menu():
     print("------------------------------------------")
     print(f"Date: {date_as_string(month)} {day}, {year}")
     print("Weather: hot")
-    print("Health: fair")
     print(f"Food: {food_remaining}")
     print(f"Miles traveled {miles_traveled}")
     print("------------------------------------------")    
