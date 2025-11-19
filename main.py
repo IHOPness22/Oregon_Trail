@@ -50,7 +50,7 @@ health_bar = 100
 #Constants -- input which don't change
 
 MIN_MILES_PER_TRAVEL = 30
-MAX_MILES_PER_TRAVEL = 60
+MAX_MILES_PER_TRAVEL = 45
 MIN_DAYS_PER_TRAVEL = 3
 MAX_DAYS_PER_TRAVEL = 7
 
@@ -59,7 +59,7 @@ MAX_DAYS_PER_REST = 5
 HEALTH_CHANGE_PER_REST = 1
 MAX_HEALTH = 5
 SICK_CHANCE = 0.03
-RECOVERY_CHANCE = 0.06
+RECOVERY_CHANCE = 0.10
 
 FOOD_PER_HUNT = 100 
 MIN_DAYS_PER_HUNT = 2
@@ -130,16 +130,6 @@ def max_days_per_month(m):
         p = 28
     return p
 
-
-#Calculates when a sickness occurs on the current day based
-# on how many days remain in the month and how many sick days have
-#already occured in the month, then 
-#the chance of a sick day is either 0, 1, out of N or 2 out of N
-#depending on how many sick days there been so far 
-
-#The system guarentees that there will be exactly 2 sick days in the month
-# and incidentally every day of the month 
-
 def random_sickness_occurs():
     global SICK_CHANCE
     global health_status
@@ -147,7 +137,7 @@ def random_sickness_occurs():
     if health_status == "Healthy":
         if random.random() <= SICK_CHANCE:
             health_status = random.choice(SICKNESS)
-            print(f"You have {health_status}")
+            input(f"You have {health_status}")
             return health_status
 
 
@@ -157,7 +147,7 @@ def handle_sickness():
     if health_status != "Healthy":
         DISEASE_BEHAVIOR[health_status]()
         if random.random() <= RECOVERY_CHANCE * sick_counter:
-            print(f"You recovered from {health_status}")
+            input(f"You recovered from {health_status}")
             sick_counter = 1
             health_status = "Healthy"
             return health_status
@@ -192,32 +182,20 @@ DISEASE_BEHAVIOR = {
     "Fever": fever_effect
 } 
 
-def consume_food():
-    pass	
-
-#Repairs problematic value in the global (month, day)
-#model where the day is 
-#larger than the number of the month, If this happens
-#advance to the next
-#month and knocks down the day back to 1
-#Returns true if the global month/day were altered, else false.
-
-def maybe_rollover_month():
-	#enter your code here 
-	pass
-
-#Causes certain days to elapse. The days pass one at a time, and each
-#day brings a random chance of sickness. The sickness rules are quirky:
-#player
-#is guarenteed to fall ill a certain number of times a month, so illness
-#needs to keep track of month changes 
-#
-# input: num_days - an integer number of days that elapse
-
-def advance_game_clock(num_days):
-	#Enter your code here
-	pass
-
+#-------------------------SLEEP_EFFECTS-----------------------------
+def rest_status():
+    global health_bar
+    global health_status
+    global sleep_days
+    if health_bar != 100 and sleep_days != 1:
+        new_health = 3 * sleep_days
+        health_bar += new_health
+        print(f"You slept for {sleep_days} and gained {new_health}HP") 
+    if health_status != "Healthy":
+        if random.random() <= RECOVERY_CHANCE * sleep_days:
+            input(f"You recovered from {health_status}")
+            health_status = "Healthy"
+            return health_status
 
 #--------------------------Handlers-------------------------
 def handle_choice(choice):
@@ -258,12 +236,22 @@ def handle_hunt():
     food_gained = random.randint(30, 100)
     days_lost = random.randint(2, 5)
     day += days_lost
-    new_status = random_sickness_occurs()
+    random_sickness_occurs()
+    handle_sickness()
     month, day = days_in_months(month, day)
     days_per_month = max_days_per_month(month)
     food_remaining += food_gained
     print(f"You gained {food_gained} food")
     input(f"But you lost..... {days_lost} days")
+
+def handle_rest():
+    global month
+    global food_remaining
+    global day 
+    global days_per_month
+    global sleep_days
+    sleep_days = int(input("How many days to hit the hay... "))
+    rest_status()
 
 
 def handle_status():
@@ -298,7 +286,7 @@ def init_game():
     global miles_traveled, food_remaining, health_level
     global month, day, player_name
     global year, days_per_month, health_status, health_bar
-    global sick_counter
+    global sick_counter, sleep_days
 
     # Reset modeled variables
     miles_traveled = 0
@@ -312,6 +300,7 @@ def init_game():
     health_status = "Healthy"
     health_bar = 100
     sick_counter = 1
+    sleep_days = 1
 
 def beggining_text():
     print(welcome_text + help_text + good_luck_text)
