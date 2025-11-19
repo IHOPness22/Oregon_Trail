@@ -180,7 +180,7 @@ def typhoid_effect():
  
 def fever_effect():
     global health_bar 
-    health_bar -= random.randit(1,10)
+    health_bar -= random.randint(1,10)
 
 
 #Dictionary is below functions so that the fuctions are initialized
@@ -237,6 +237,7 @@ def handle_travel():
     random_sickness_occurs()
     handle_sickness()
     starve_effect()
+    loss_report()
 
 def handle_hunt():
     global month
@@ -250,6 +251,7 @@ def handle_hunt():
     day += days_lost
     random_sickness_occurs()
     handle_sickness()
+    loss_report()
     month, day = days_in_months(month, day)
     days_per_month = max_days_per_month(month)
     food_remaining += food_gained
@@ -281,7 +283,7 @@ def handle_invalid_input(response):
 	pass
 
 def game_is_over():
-	pass
+	sys.exit(0)
 
 def player_wins():
 	#Enter your code here 
@@ -292,7 +294,7 @@ def loss_report():
     if health_bar <= 0: 
         health_bar = 0 
         print("You died, Try again")
-        sys.exit(0)
+        game_is_over()
 
 
 #-------------------Game loops----------------
