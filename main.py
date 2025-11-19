@@ -198,16 +198,35 @@ def rest_status():
     global health_bar
     global health_status
     global sleep_days
-    if health_bar != 100 and sleep_days != 1:
+    global day
+    day += sleep_days
+    if health_bar == 100:
+         print(f"You have slept for {sleep_days} days")
+    else:
         new_health = 3 * sleep_days
         health_bar += new_health
         print(f"You slept for {sleep_days} and gained {new_health}HP") 
+        if health_bar >= 100:
+             health_bar = 100
     if health_status != "Healthy":
         if random.random() <= RECOVERY_CHANCE * sleep_days:
             input(f"You recovered from {health_status}")
             health_status = "Healthy"
             return health_status
-
+    
+        
+def rest_option():
+    global sleep_days
+    while True:
+        try:
+            sleep_days = int(input("How many days to hit the hay... (2-5)"))
+            if sleep_days >= 2 and sleep_days <= 5:
+                break
+            else:
+                print("Pick a number between 2 and 5")
+        except ValueError:
+            print("Invalid input")      
+    
 #--------------------------Handlers-------------------------
 def handle_choice(choice):
     if choice == "1":
@@ -264,7 +283,7 @@ def handle_rest():
     global day 
     global days_per_month
     global sleep_days
-    sleep_days = int(input("How many days to hit the hay... "))
+    rest_option()
     rest_status()
 
 
