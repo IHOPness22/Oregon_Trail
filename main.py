@@ -1,5 +1,6 @@
 import sys
 import random
+from dataclasses import dataclass
 
 welcome_text = """ 
 Welcome to the oregon Trail! This year is 1850 and Americans are 
@@ -10,7 +11,7 @@ The trail is ardous. Each day costs you food and health.
 You can hunt and rest, but you have to get there before winter! 
 """
 
-help_text = """"
+help_text = """
 Each turn you can take one of 3 actions
 
  travel - moves you randomly between 30-60 miles and 
@@ -72,6 +73,22 @@ MONTHS_WITH_31_DAYS = [1, 3, 5, 7, 8, 10, 12]
 MONTHS_WITH_30_DAYS = [4, 6, 9, 11]
 MONTHS_WITH_28_DAYS = [2]
 SICKNESS = ["Cholera", "Dysentery", "Measles", "Typhoid", "Fever"]
+
+@dataclass
+class River:
+    name: str
+    distance: int
+    depth: float
+    width: int
+    ferry_cost: int
+    has_ferry: bool
+    river_passed: bool = False
+
+rivers = [
+    River("Kansas River", 102, 3.1, 200, 5, True),
+    River("Big Blue River", 185, 2.7, 240, 3, False),
+    River("Snake River", 1200, 6.2, 430, 8, True)
+]
 
 NAME_OF_MONTH = [
 	'fake', 'January', 'February', 'March', 'April', 'May',
@@ -220,9 +237,61 @@ def rest_option():
             else:
                 print("Pick a number between 2 and 5")
         except ValueError:
-            print("Invalid input")      
+            print("Invalid input")  
+
+#---------------------------RIVER CHECK---------------------------
+def river_check():
+    global miles_traveled 
+    for river in rivers:
+        if miles_traveled >= river.distance and river.river_passed == False:
+            input(f"You are now at {river.name}!")
+            river_menu(river)
+            river.river_passed = True
+
+def ferry_avail(river):
+    if river.has_ferry == True:
+        return "Present"
+    else:
+        return "Absent"
+
+#---------------------------RIVER MENU-----------------------------
+def river_menu(river):
+    print(f"Width: {river.width}ft")
+    print(f"Depth: {river.depth}ft")
+    print("Weather: ")
+    print(f"Ferry availability: {ferry_avail(river)}")
+    print("\n")
+    print("You may: \n")
+    print("1. Attempt to ford the river")
+    print("2. Caulk the wagon and float it across")
+    print("3. Take a ferry")
+    print("4. Wait to see if conditions imporve")
+    river_choice = int(input("What would you like to do (1-4)"))
+    return river_choice
     
 #--------------------------Handlers-------------------------
+def handle_river_choice(river_choice, river):
+    if river_choice == 1:
+        input("Ok here we go....")
+        ford_river(river)
+    elif river_choice == 2:
+        input("Ok here we go....")
+        Caulk_river(river)
+    elif river_choice == 3:
+        input("Ok ferry it is...")
+        take_ferry(river)
+    elif river_choice == 4:
+        input("Ok lets wait...")
+        wait_river(river)
+    else:
+        print("Invalid input")
+        new_choice = river_menu(river)
+        handle_river_choice(new_choice, river)
+    
+
+
+
+
 def handle_choice(choice):
     if choice == "1":
         handle_travel()
@@ -252,6 +321,7 @@ def handle_travel():
     handle_sickness()
     starve_effect()
     loss_report()
+    river_check()
 
 def handle_hunt():
     global month
