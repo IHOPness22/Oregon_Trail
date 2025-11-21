@@ -62,6 +62,10 @@ HEALTH_CHANGE_PER_REST = 1
 MAX_HEALTH = 5
 SICK_CHANCE = 0.03
 RECOVERY_CHANCE = 0.10
+SHALLOW_ODDS_1 = 0.6
+SHALLOW_ODDS_2 = 0.4
+SHALLOW_ODDS_3 = 0.2 
+SHALLOW_ODDS_4 = 0
 
 FOOD_PER_HUNT = 100 
 MIN_DAYS_PER_HUNT = 2
@@ -78,16 +82,16 @@ SICKNESS = ["Cholera", "Dysentery", "Measles", "Typhoid", "Fever"]
 class River:
     name: str
     distance: int
-    depth: float
-    width: int
+    depth: float 
+    width: int 
     ferry_cost: int
     has_ferry: bool
     river_passed: bool = False
 
 rivers = [
-    River("Kansas River", 102, 3.1, 200, 5, True),
-    River("Big Blue River", 185, 2.7, 240, 3, False),
-    River("Snake River", 1200, 6.2, 430, 8, True)
+    River("Kansas River", 102, round(random.uniform(1,7),1), 200, 5, True),
+    River("Big Blue River", 185, round(random.uniform(1,7),1),240, 3, False),
+    River("Snake River", 1200, round(random.uniform(1,7),1),430, 8, True)
 ]
 
 NAME_OF_MONTH = [
@@ -252,7 +256,8 @@ def river_check():
     for river in rivers:
         if miles_traveled >= river.distance and river.river_passed == False:
             input(f"You are now at {river.name}!")
-            river_menu(river)
+            choice = river_menu(river)
+            handle_river_choice(choice, river)
             river.river_passed = True
 
 def ferry_avail(river):
@@ -297,8 +302,30 @@ def handle_river_choice(river_choice, river):
 
 #---------------------------RIVER FUNCTIONS--------------------------
 def ford_river(river):
-    #Enter your code here 
-    pass
+    global food_remaining
+    global day 
+    if river.width <= 3:
+        river_odds = SHALLOW_ODDS_1
+    elif river.width > 3 and river.width <= 4:
+        river_odds = SHALLOW_ODDS_2
+    elif river.width > 4 and river.width <= 5:
+        river.odds = SHALLOW_ODDS_3
+    else:
+        river_odds = SHALLOW_ODDS_4
+    
+    if random.random() <= river_odds:
+        print("You have succesfully crossed the river!")
+        input("No damages!")
+    else:
+        print("Your boat was damaged in the process")
+        input("lost 10 days repairing and lost food")
+        day += 10 
+        food_remaining -= random.randint(60,120)
+
+        
+
+        
+
 
 def caulk_river(river):
     #Enter your code here
@@ -347,6 +374,7 @@ def handle_travel():
     starve_effect()
     loss_report()
     river_check()
+    
 
 def handle_hunt():
     global month
