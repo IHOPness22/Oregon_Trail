@@ -103,7 +103,7 @@ NAME_OF_MONTH = [
 #This function does not reinforce calender rules, it's happy to output 
 #impossible strings like "June 95" or "February 31"
 
-#-----------------------FUNCTIONS-------------------------
+#------------------READABLE STRINGS-------------------------
 
 def date_as_string(m):
     return NAME_OF_MONTH[m]
@@ -111,6 +111,9 @@ def date_as_string(m):
 def miles_remaining():
     miles_remained = MILES_BETWEEN_NYC_AND_OREGON - miles_traveled
     return miles_remained
+
+
+#------------------STARVATION--------------------------------
 
 def starve_effect():
     global food_remaining
@@ -124,6 +127,8 @@ def starve_effect():
 #input: an integer from 1-12. 1=January, 2=february, etc
 #output: the number of days in a month. If the input is not in 
 #the required range returns 0
+
+#----------------------MAKES DAY SYSTEM FEEL LIKE A CALENDER--------------
 
 def days_in_months(m,d):
     if m in MONTHS_WITH_31_DAYS and d > 31:
@@ -148,6 +153,8 @@ def max_days_per_month(m):
     elif m in MONTHS_WITH_28_DAYS:
         p = 28
     return p
+
+#------------------SPAWN SICKNESS AND HANDLE-------------------------
 
 def random_sickness_occurs():
     global SICK_CHANCE
@@ -269,14 +276,14 @@ def river_menu(river):
     river_choice = int(input("What would you like to do (1-4)"))
     return river_choice
     
-#--------------------------Handlers-------------------------
+#--------------------------RIVER HANDLER-------------------------
 def handle_river_choice(river_choice, river):
     if river_choice == 1:
         input("Ok here we go....")
         ford_river(river)
     elif river_choice == 2:
         input("Ok here we go....")
-        Caulk_river(river)
+        caulk_river(river)
     elif river_choice == 3:
         input("Ok ferry it is...")
         take_ferry(river)
@@ -287,10 +294,27 @@ def handle_river_choice(river_choice, river):
         print("Invalid input")
         new_choice = river_menu(river)
         handle_river_choice(new_choice, river)
+
+#---------------------------RIVER FUNCTIONS--------------------------
+def ford_river(river):
+    #Enter your code here 
+    pass
+
+def caulk_river(river):
+    #Enter your code here
+    pass
+
+def take_ferry(river):
+    #Enter your code here
+    pass
+
+def wait_river(river):
+    #Enter your code here 
+    pass
     
 
 
-
+#-------------------------GAME HANDLERS-------------------------
 
 def handle_choice(choice):
     if choice == "1":
@@ -313,8 +337,9 @@ def handle_travel():
     global month
     global food_remaining
     miles_traveled += random.randint(MIN_MILES_PER_TRAVEL, MAX_MILES_PER_TRAVEL)
-    day += 1
-    food_remaining -= FOOD_EATEN_PER_DAY
+    added_day = random.randint(1,3)
+    day += added_day
+    food_remaining -= FOOD_EATEN_PER_DAY * added_day 
     month, day = days_in_months(month, day)
     days_per_month = max_days_per_month(month)
     random_sickness_occurs()
