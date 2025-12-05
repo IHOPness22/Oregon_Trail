@@ -77,7 +77,10 @@ MONTHS_WITH_31_DAYS = [1, 3, 5, 7, 8, 10, 12]
 MONTHS_WITH_30_DAYS = [4, 6, 9, 11]
 MONTHS_WITH_28_DAYS = [2]
 SICKNESS = ["Cholera", "Dysentery", "Measles", "Typhoid", "Fever"]
-WEATHER = ["Hot", "Cold", "Rain", "thunderstorms", "Snow"]
+WEATHER = ["Sunny", "Hot", "Cloudy", "Rain", "Thunderstorms"]
+WINTER_WEATHER = ["Snow"]
+CURRENT_WEATHER = 0
+WEATHER_SPEED = 0
 
 @dataclass
 class River:
@@ -271,7 +274,7 @@ def ferry_avail(river):
 def river_menu(river):
     print(f"Width: {river.width}ft")
     print(f"Depth: {river.depth}ft")
-    print("Weather: ")
+    print(f"Weather: {get_weather_string()}")
     print(f"Ferry availability: {ferry_avail(river)}")
     print("\n")
     print("You may: \n")
@@ -340,6 +343,43 @@ def take_ferry(river):
 def wait_river(river):
     #Enter your code here 
     pass
+
+#------------------------HANDLE WEATHER-------------------------
+def get_weather_string():
+    return random.choice(WEATHER)
+
+def start_weather():
+    global CURRENT_WEATHER
+    global month
+    global WEATHER_SPEED
+    global SICK_CHANCE
+    if month not in (12, 1, 2, 6, 7):
+        CURRENT_WEATHER = get_weather_string()
+        if CURRENT_WEATHER == "Hot":
+            WEATHER_SPEED = -2
+            SICK_CHANCE = 0.04
+        if CURRENT_WEATHER == "Sunny":
+            WEATHER_SPEED = 0
+            SICK_CHANCE = 0.03
+        if CURRENT_WEATHER == "Cloudy":
+            WEATHER_SPEED = 0
+            SICK_CHANCE = 0.03
+        if CURRENT_WEATHER == "Rain":
+            WEATHER_SPEED = -3
+            SICK_CHANCE = 0.05 
+        if CURRENT_WEATHER == "Thunderstorms":
+            WEATHER_SPEED = -5
+            SICK_CHANCE = 0.065    
+    #finish the weather        
+
+    
+
+
+
+
+
+
+
     
 
 
@@ -471,7 +511,7 @@ def game_loop():
 def menu():
     print("------------------------------------------")
     print(f"Date: {date_as_string(month)} {day}, {year}")
-    print("Weather: hot")
+    print(f"Weather: {get_weather_string()}")
     print(f"Food: {food_remaining}")
     print(f"Miles traveled {miles_traveled}")
     print("------------------------------------------")    
