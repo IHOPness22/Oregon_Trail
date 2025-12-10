@@ -370,7 +370,8 @@ def start_weather():
         if CURRENT_WEATHER == "Thunderstorms":
             WEATHER_SPEED = -5
             SICK_CHANCE = 0.065    
-    #finish the weather        
+    #finish the weather 
+           
 
     
 
@@ -411,6 +412,7 @@ def handle_travel():
     food_remaining -= FOOD_EATEN_PER_DAY * added_day 
     month, day = days_in_months(month, day)
     days_per_month = max_days_per_month(month)
+    start_weather() #e
     random_sickness_occurs()
     handle_sickness()
     starve_effect()
