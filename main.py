@@ -79,6 +79,7 @@ MONTHS_WITH_28_DAYS = [2]
 SICKNESS = ["Cholera", "Dysentery", "Measles", "Typhoid", "Fever"]
 WEATHER = ["Sunny", "Hot", "Cloudy", "Rain", "Thunderstorms"]
 WINTER_WEATHER = ["Snow"]
+SUMMER_WEATHER = ["Hot"]
 CURRENT_WEATHER = 0
 WEATHER_SPEED = 0
 
@@ -274,7 +275,7 @@ def ferry_avail(river):
 def river_menu(river):
     print(f"Width: {river.width}ft")
     print(f"Depth: {river.depth}ft")
-    print(f"Weather: {get_weather_string()}")
+    print(f"Weather: {CURRENT_WEATHER}")
     print(f"Ferry availability: {ferry_avail(river)}")
     print("\n")
     print("You may: \n")
@@ -348,6 +349,12 @@ def wait_river(river):
 def get_weather_string():
     return random.choice(WEATHER)
 
+def get_winter_string():
+    return random.choice(WINTER_WEATHER)
+
+def get_summer_string():
+    return random.choice(SUMMER_WEATHER)
+
 def start_weather():
     global CURRENT_WEATHER
     global month
@@ -357,20 +364,30 @@ def start_weather():
         CURRENT_WEATHER = get_weather_string()
         if CURRENT_WEATHER == "Hot":
             WEATHER_SPEED = -2
-            SICK_CHANCE = 0.04
-        if CURRENT_WEATHER == "Sunny":
+            SICK_CHANCE = 0.035
+        elif CURRENT_WEATHER == "Sunny":
+            WEATHER_SPEED = 0
+            SICK_CHANCE = 0.02
+        elif CURRENT_WEATHER == "Cloudy":
             WEATHER_SPEED = 0
             SICK_CHANCE = 0.03
-        if CURRENT_WEATHER == "Cloudy":
-            WEATHER_SPEED = 0
-            SICK_CHANCE = 0.03
-        if CURRENT_WEATHER == "Rain":
+        elif CURRENT_WEATHER == "Rain":
             WEATHER_SPEED = -3
-            SICK_CHANCE = 0.05 
-        if CURRENT_WEATHER == "Thunderstorms":
+            SICK_CHANCE = 0.04 
+        elif CURRENT_WEATHER == "Thunderstorms":
             WEATHER_SPEED = -5
-            SICK_CHANCE = 0.065    
+            SICK_CHANCE = 0.04   
     #finish the weather 
+    elif month in (12, 1, 2):
+        CURRENT_WEATHER = get_winter_string()
+        SICK_CHANCE = 0.099
+        WEATHER_SPEED = -random.randint(10, 20)
+
+    elif month in (6, 7):
+        CURRENT_WEATHER = get_summer_string()
+        SICK_CHANCE = 0.035
+        WEATHER_SPEED = -2
+
            
 
     
@@ -513,7 +530,7 @@ def game_loop():
 def menu():
     print("------------------------------------------")
     print(f"Date: {date_as_string(month)} {day}, {year}")
-    print(f"Weather: {get_weather_string()}")
+    print(f"Weather: {CURRENT_WEATHER}")
     print(f"Food: {food_remaining}")
     print(f"Miles traveled {miles_traveled}")
     print("------------------------------------------")    
